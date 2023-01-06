@@ -46,6 +46,7 @@ namespace SecretsSharing
             {
                 m.AddProfile<UserProfile>();
                 m.AddProfile<FileProfile>();
+                m.AddProfile<TextProfile>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
