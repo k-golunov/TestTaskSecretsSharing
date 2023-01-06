@@ -57,5 +57,14 @@ namespace SecretsSharing.Controllers
             var files = _fileManager.GetAllForUser(userId);
             return Ok(files);
         }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteFile(Guid fileId)
+        {
+            var response = _fileManager.DeleteFile(fileId);
+            if (response)
+                return Ok();
+            return BadRequest("File not deleted");
+        }
     }
 }
