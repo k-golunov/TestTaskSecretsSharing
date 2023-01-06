@@ -10,5 +10,6 @@ namespace SecretsSharing.Interface
         public List<File> GetAll();
         public File GetById(Guid id);
         public Task<Guid> AddAsync(File file);
+        public Task DeleteFile(File file);
     }
 }

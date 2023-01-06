@@ -29,5 +29,11 @@ namespace SecretsSharing.Repositories
 
             throw new Exception("User not found");
         }
+        
+        public async Task DeleteFile(File file)
+        {
+            _context.Files.Remove(file);
+            await _context.SaveChangesAsync();
+        }
     }
 }

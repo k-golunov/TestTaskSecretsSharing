@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +21,7 @@ namespace SecretsSharing.Controllers
             _fileManager = fileManager;
         }
         
-        [Authorize]
+        // [Authorize]
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile([FromQuery]UploadFileModel model, IFormFile file)
         {
@@ -33,7 +35,19 @@ namespace SecretsSharing.Controllers
             {
                 return BadRequest(new { e.Message });
             }
-            
+        }
+        
+        [HttpGet("id={id:guid}")]
+        public async Task<IActionResult> DownloadFile(Guid id)
+        {
+            var file = _fileManager.GetFile(id);
+            if (file == null)
+                return NotFound();
+            Response.Headers.Append("IsDelete", "true");
+            // _fileManager.DeleteAutomatically(file);
+            var fileType="application/octet-stream";
+            var fileStream = new FileStream(file.Path, FileMode.Open);
+            return File(fileStream, fileType, file.FileName);
         }
     }
 }

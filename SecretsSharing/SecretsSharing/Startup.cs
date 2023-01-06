@@ -45,6 +45,7 @@ namespace SecretsSharing
             var mapperConfig = new MapperConfiguration(m =>
             {
                 m.AddProfile<UserProfile>();
+                m.AddProfile<FileProfile>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -70,6 +71,7 @@ namespace SecretsSharing
 
             app.UseRouting();
             app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<DeleteFileMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
