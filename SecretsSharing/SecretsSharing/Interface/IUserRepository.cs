@@ -12,5 +12,6 @@ namespace SecretsSharing.Interface
         public List<File> GetAllUserFiles(Guid userId);
         public User GetById(Guid id);
         public List<User> GetAll();
+        public Task<Guid> UpdateAsync(User entity);
     }
 }

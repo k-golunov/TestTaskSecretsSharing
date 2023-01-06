@@ -38,6 +38,10 @@ namespace SecretsSharing
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IFileRepository, FileRepository>();
+            services.AddScoped<ITextManager, TextManager>();
+            services.AddScoped<ITextRepository, TextRepository>();
             var mapperConfig = new MapperConfiguration(m =>
             {
                 m.AddProfile<UserProfile>();

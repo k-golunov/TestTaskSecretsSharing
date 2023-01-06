@@ -36,5 +36,12 @@ namespace SecretsSharing.Repositories
         { 
             return _context.Set<UserText>().Where(f => f.UserId == userId).ToList();
         }
+        
+        public async Task<Guid> UpdateAsync(User entity)
+        {
+            _context.Users.Update(entity);
+            await _context.SaveChangesAsync();
+            return entity.Id;
+        }
     }
 }
