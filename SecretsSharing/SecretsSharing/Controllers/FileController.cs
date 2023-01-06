@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SecretsSharing.Attribute;
 using SecretsSharing.Interface;
+using SecretsSharing.Model;
 
 namespace SecretsSharing.Controllers
 {
@@ -18,5 +19,21 @@ namespace SecretsSharing.Controllers
             _fileManager = fileManager;
         }
         
+        [Authorize]
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile([FromQuery]UploadFileModel model, IFormFile file)
+        {
+            try
+            {
+                var id = await _fileManager.UploadFileAsync(model, file);
+                var uri = new Uri($"{Request.Scheme}://{Request.Host}/api/v1/files/id={id}");
+                return Ok(uri);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+            
+        }
     }
 }

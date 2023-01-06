@@ -7,5 +7,6 @@ namespace SecretsSharing.DTO
         public Guid UserId { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
+        public bool IsDelete { get; set; }
     }
 }
