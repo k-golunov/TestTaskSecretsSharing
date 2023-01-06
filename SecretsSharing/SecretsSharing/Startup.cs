@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore.Design;
+using SecretsSharing.Interface;
+using SecretsSharing.Managers;
+using SecretsSharing.Middlewares;
+using SecretsSharing.Profiles;
+using SecretsSharing.Repositories;
 
 namespace SecretsSharing
 {
@@ -30,6 +36,15 @@ namespace SecretsSharing
         {
             services.AddDbContext<DataContext>(opt => 
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            var mapperConfig = new MapperConfiguration(m =>
+            {
+                m.AddProfile<UserProfile>();
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -50,7 +65,7 @@ namespace SecretsSharing
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseMiddleware<JwtMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
