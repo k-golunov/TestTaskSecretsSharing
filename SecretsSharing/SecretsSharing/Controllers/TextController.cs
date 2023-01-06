@@ -22,7 +22,31 @@ namespace SecretsSharing.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadText(TextModel model)
         {
-            await _textManager.UploadText(model);
+            var id = await _textManager.UploadText(model);
+            var uri = new Uri($"{Request.Scheme}://{Request.Host}/api/v1/files/id={id}");
+            return Ok(uri);
+        }
+
+        [HttpGet("id={id:guid}")]
+        public IActionResult Get(Guid id)
+        {
+            var text = _textManager.GetText(id);
+            if (text.IsDelete)
+                _textManager.DeleteText(id);
+            return Ok(text);
+        }
+
+        [HttpGet("getAll")]
+        public IActionResult GetAll(Guid userId)
+        {
+            var texts = _textManager.GetAllForUser(userId);
+            return Ok(texts);
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete(Guid textId)
+        {
+            _textManager.DeleteText(textId);
             return Ok();
         }
     }

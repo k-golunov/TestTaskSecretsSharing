@@ -9,5 +9,6 @@ namespace SecretsSharing.Model
     {
         public Guid UserId { get; set; }
         public string Text { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

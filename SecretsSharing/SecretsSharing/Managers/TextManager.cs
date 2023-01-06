@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -27,5 +28,14 @@ namespace SecretsSharing.Managers
             var text = _mapper.Map<UserText>(model);
             return _textRepository.AddAsync(text);
         }
+
+        public UserText GetText(Guid id) => _textRepository.GetById(id);
+        
+        public void DeleteText(Guid id)
+        {
+            _textRepository.Delete(id);
+        }
+        
+        public List<UserText> GetAllForUser(Guid userId) => _textRepository.GetAllForUser(userId);
     }
 }

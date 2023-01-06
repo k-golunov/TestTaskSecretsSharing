@@ -13,7 +13,9 @@ namespace SecretsSharing.Profiles
                     opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dst => dst.Id, opt => opt.Ignore())
                 .ForMember(dst => dst.Text,
-                    opt => opt.MapFrom(src => src.Text));
+                    opt => opt.MapFrom(src => src.Text))
+                .ForMember(dst => dst.IsDelete,
+                    opt => opt.MapFrom(src => src.IsDelete));
         }
     }
 }
