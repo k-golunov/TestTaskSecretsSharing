@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using SecretsSharing.DTO;
@@ -12,5 +13,6 @@ namespace SecretsSharing.Interface
         public File GetFile(Guid id);
         public bool DeleteFile(Guid id);
         public void DeleteAutomatically(File file);
+        public List<File> GetAllForUser(Guid userId);
     }
 }

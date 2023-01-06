@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,13 @@ namespace SecretsSharing.Controllers
             var fileType="application/octet-stream";
             var fileStream = new FileStream(file.Path, FileMode.Open);
             return File(fileStream, fileType, file.FileName);
+        }
+
+        [HttpGet("getAll")]
+        public async Task<OkObjectResult> GetAll(Guid userId)
+        {
+            var files = _fileManager.GetAllForUser(userId);
+            return Ok(files);
         }
     }
 }

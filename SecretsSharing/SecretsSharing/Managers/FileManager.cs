@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,5 +58,7 @@ namespace SecretsSharing.Managers
             System.IO.File.Delete(file.Path);
             return true;
         }
+
+        public List<File> GetAllForUser(Guid userId) => _fileRepository.GetAllForUser(userId);
     }
 }

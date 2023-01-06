@@ -15,7 +15,9 @@ namespace SecretsSharing.Repositories
         {
             _context = context;
         }
-        public List<File> GetAll() => _context.Set<File>().ToList();
+
+        public List<File> GetAllForUser(Guid userId) => _context.Set<File>().Where(f => f.UserId == userId).ToList();  
+        
         public File GetById(Guid id) => _context.Set<File>().FirstOrDefault(f => f.Id == id);
         
         public async Task<Guid> AddAsync(File file)
