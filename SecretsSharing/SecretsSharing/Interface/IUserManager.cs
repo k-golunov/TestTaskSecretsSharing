@@ -10,8 +10,6 @@ namespace SecretsSharing.Interface
     {
         public AuthenticateResponse Authenticate(AuthModel model);
         public Task<AuthenticateResponse> Register(AuthModel userModel);
-        public List<File> GetAllUserFiles(Guid userId);
-        public List<UserText> GetAllUserTexts(Guid userId);
         public User GetById(Guid id);
     }
 }

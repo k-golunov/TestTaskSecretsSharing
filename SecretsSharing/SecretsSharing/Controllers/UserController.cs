@@ -11,11 +11,20 @@ namespace SecretsSharing.Controllers
     {
         private readonly IUserManager _userManager;
         
+        /// <summary>
+        /// Get user manager from di
+        /// </summary>
+        /// <param name="userManager">instance userManager</param>
         public UserController(IUserManager userManager)
         {
             _userManager = userManager;
         }
         
+        /// <summary>
+        /// Register user and add him to database
+        /// </summary>
+        /// <param name="model">Authenticate model</param>
+        /// <returns>Authenticate response with userId, email and token</returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register(AuthModel model)
         {
@@ -28,6 +37,11 @@ namespace SecretsSharing.Controllers
             return Ok(response);
         }
         
+        /// <summary>
+        /// Sign in for register user
+        /// </summary>
+        /// <param name="model">Authenticate model</param>
+        /// <returns>Authenticate response with userId, email and token</returns>
         [HttpPost("signin")]
         public IActionResult Authenticate(AuthModel model)
         {

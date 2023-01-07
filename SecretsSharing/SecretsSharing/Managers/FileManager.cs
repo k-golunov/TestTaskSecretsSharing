@@ -23,11 +23,17 @@ namespace SecretsSharing.Managers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Upload file on server and save data in database
+        /// </summary>
+        /// <param name="model">Upload model</param>
+        /// <param name="file">user file</param>
+        /// <returns>File id</returns>
         public async Task<Guid> UploadFileAsync(UploadFileModel model, IFormFile file)
         {
             var fileEntity = _mapper.Map<File>(model);
             fileEntity.FileName = $"{Guid.NewGuid()}.{file.FileName.Split('.').Last()}";
-            var path = $".\\Files\\{fileEntity.FileName}.{file.FileName.Split('.').Last()}";
+            var path = $".\\Files\\{fileEntity.FileName}";
             fileEntity.Path = path;
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
@@ -38,6 +44,10 @@ namespace SecretsSharing.Managers
             return id;
         }
         
+        /// <summary>
+        /// Check file.IsDelete and delete file if is needed
+        /// </summary>
+        /// <param name="file"></param>
         public void DeleteAutomatically(File file)
         {
             if (file.IsDelete)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace SecretsSharing.Managers
             _mapper = mapper;
         }
         
+        /// <summary>
+        /// Generate access token and save data in database with userRepository
+        /// </summary>
+        /// <param name="model">Authenticate model</param>
+        /// <returns>AuthenticateResponse</returns>
         public AuthenticateResponse Authenticate(AuthModel model)
         {
             var user = _userRepository
@@ -40,15 +46,18 @@ namespace SecretsSharing.Managers
                 .FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
 
             if (user == null)
-            {
-                // todo: need to add logger
                 return null;
-            }
+            
 
             var token = GenerateJwtToken(user);
             return new AuthenticateResponse(user, token);
         }
 
+        /// <summary>
+        /// Register user and create AuthenticateResponse with method Authenticate
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<AuthenticateResponse> Register(AuthModel model)
         {
             var userModel = _mapper.Map<User>(model);
@@ -63,21 +72,13 @@ namespace SecretsSharing.Managers
             return response;
         }
 
-        public List<File> GetAllUserFiles(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<UserText> GetAllUserTexts(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public User GetById(Guid id) => _userRepository.GetById(id);
         
+        /// <summary>
+        /// Generate new Jwt Token use secret key in configuration and algorithms HmacSha256
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>new jwt token</returns>
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

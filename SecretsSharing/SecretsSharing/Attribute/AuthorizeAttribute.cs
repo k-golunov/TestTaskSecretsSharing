@@ -10,7 +10,7 @@ namespace SecretsSharing.Attribute
     public class AuthorizeAttribute : System.Attribute, IAuthorizationFilter
     {
         /// <summary>
-        /// checks for the presence of the User header to verify authorization
+        /// checks User header to verify authorization or return unauthorized
         /// </summary>
         /// <param name="context">context for authorization filters</param>
         public void OnAuthorization(AuthorizationFilterContext context)
