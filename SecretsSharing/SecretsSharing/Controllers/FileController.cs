@@ -22,7 +22,7 @@ namespace SecretsSharing.Controllers
             _fileManager = fileManager;
         }
         
-        // [Authorize]
+        [Authorize]
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile([FromQuery]UploadFileModel model, IFormFile file)
         {
@@ -51,6 +51,7 @@ namespace SecretsSharing.Controllers
             return File(fileStream, fileType, file.FileName);
         }
 
+        [Authorize]
         [HttpGet("getAll")]
         public async Task<OkObjectResult> GetAll(Guid userId)
         {
@@ -58,6 +59,7 @@ namespace SecretsSharing.Controllers
             return Ok(files);
         }
 
+        [Authorize]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteFile(Guid fileId)
         {

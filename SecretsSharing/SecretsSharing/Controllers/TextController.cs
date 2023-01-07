@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SecretsSharing.Attribute;
 using SecretsSharing.Interface;
 using SecretsSharing.Model;
 
@@ -18,7 +19,7 @@ namespace SecretsSharing.Controllers
             _textManager = textManager;
         }
 
-
+        [Authorize]
         [HttpPost("upload")]
         public async Task<IActionResult> UploadText(TextModel model)
         {
@@ -36,6 +37,7 @@ namespace SecretsSharing.Controllers
             return Ok(text);
         }
 
+        [Authorize]
         [HttpGet("getAll")]
         public IActionResult GetAll(Guid userId)
         {
@@ -43,6 +45,7 @@ namespace SecretsSharing.Controllers
             return Ok(texts);
         }
 
+        [Authorize]
         [HttpDelete("delete")]
         public IActionResult Delete(Guid textId)
         {
